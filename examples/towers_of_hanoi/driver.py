@@ -1,6 +1,6 @@
 # driver.py
 
-from __future__ import with_statement
+
 import sys
 from pyke import knowledge_engine
 from pyke import krb_traceback
@@ -16,7 +16,7 @@ def test(num_disks):
                                num_disks=num_disks) \
           as gen:
             for i, (vars, no_plan) in enumerate(gen):
-                print "got %d:" % (i + 1), vars['moves']
+                print("got %d:" % (i + 1), vars['moves'])
     except:
         krb_traceback.print_exc()
         sys.exit(1)

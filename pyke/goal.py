@@ -15,7 +15,7 @@ EXAMPLE USAGE:
                 print vars['ans']
 '''
 
-from __future__ import with_statement
+
 
 import itertools
 from pyke import contexts, knowledge_engine, krb_compiler
@@ -34,7 +34,7 @@ class prover(object):
 
     def prove(self, engine, **args):
         context = contexts.simple_context()
-        for var, value in args.iteritems():
+        for var, value in args.items():
             context.bind(var, context, value)
         return producer(engine, self.rb_name, self.goal_name, self.patterns,
                         context, self.pattern_vars)
@@ -44,7 +44,7 @@ class prover(object):
         try:
             # All we need is the first one!
             with self.prove(engine, **args) as it:
-                return iter(it).next()
+                return next(iter(it))
         except StopIteration:
             raise knowledge_engine.CanNotProve("Can not prove " + self.goal_str)
 
@@ -63,7 +63,7 @@ class producer(object):
         self.context_manager = self.engine.prove(self.rb_name, self.goal_name,
                                                  self.context, self.patterns)
         it = iter(self.context_manager.__enter__())
-        return itertools.imap(self.doctor_answer, it)
+        return map(self.doctor_answer, it)
 
     def __exit__(self, type, value, tb):
         return self.context_manager.__exit__(type, value, tb)

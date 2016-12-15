@@ -22,7 +22,7 @@
 # THE SOFTWARE.
 
 import os.path
-import wsgi_app
+from . import wsgi_app
 import wsgiref.simple_server
 
 class RequestHandlerNoLogging(wsgiref.simple_server.WSGIRequestHandler):
@@ -55,7 +55,7 @@ def run(port = 8080, logging = True, trace_sql = False, db_engine = 'sqlite3'):
                     if logging
                     else RequestHandlerNoLogging)
     httpd.set_app(wsgi_app.wsgi_app)
-    print "Server running..."
+    print("Server running...")
     httpd.serve_forever()
 
 if __name__ == "__main__":

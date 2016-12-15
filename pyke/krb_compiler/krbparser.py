@@ -24,7 +24,7 @@
 """ See http://www.dabeaz.com/ply/ply.html for syntax of grammer definitions.
 """ 
 
-from __future__ import with_statement
+
 import itertools
 import warnings
 import os, os.path

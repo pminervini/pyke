@@ -1,4 +1,4 @@
-# $Id: scanner.py 9f7068449a4b 2010-03-08 mtnyogi $
+# $Id: scanner.py 4dca5ad0f397 2010-03-10 mtnyogi $
 # coding=utf-8
 # 
 # Copyright © 2007-2008 Bruce Frederiksen
@@ -24,7 +24,7 @@
 """ See http://www.dabeaz.com/ply/ply.html for syntax of grammer definitions.
 """
 
-from __future__ import with_statement
+
 import string
 import os, os.path
 from pyke.krb_compiler.ply import lex
@@ -133,17 +133,17 @@ def t_indent_sp(t):
     indent = count_indent(t.value[1:])[0]
     current_indent = indent_levels[-1] if indent_levels else 0
     if debug:
-        print "t_indent_sp: t.value", repr(t.value), "indent", indent, \
+        print("t_indent_sp: t.value", repr(t.value), "indent", indent, \
               "current_indent", current_indent, \
               "indent_levels", indent_levels, \
               "t.lexpos", t.lexpos, \
               "t.lexer.lexpos", t.lexer.lexpos, \
-              "t.lexer.lexdata[]", repr(t.lexer.lexdata[t.lexpos])
+              "t.lexer.lexdata[]", repr(t.lexer.lexdata[t.lexpos]))
     if indent > current_indent:
         t.type = 'INDENT_TOK'
         indent_levels.append(indent)
         t.lexer.begin('INITIAL')
-        if debug: print "INDENT_TOK: indent_levels", indent_levels
+        if debug: print("INDENT_TOK: indent_levels", indent_levels)
         return t
     if indent < current_indent:
         if indent > 0 and indent not in indent_levels:
@@ -153,16 +153,16 @@ def t_indent_sp(t):
         t.type = 'DEINDENT_TOK'
         del indent_levels[-1]
         if indent < (indent_levels[-1] if indent_levels else 0):
-            if debug: print " -- pushing indent back"
+            if debug: print(" -- pushing indent back")
             t.lexer.skip(-len(t.value))
         else:
-            if debug: print " -- doing begin('INITIAL')"
+            if debug: print(" -- doing begin('INITIAL')")
             t.lexer.begin('INITIAL')
-        if debug: print "DEINDENT_TOK: indent_levels", indent_levels
+        if debug: print("DEINDENT_TOK: indent_levels", indent_levels)
         return t
     # else indent == current_indent
     t.lexer.begin('INITIAL')
-    if debug: print "no indent: indent_levels", indent_levels
+    if debug: print("no indent: indent_levels", indent_levels)
 
 t_checknl_ignore = ' \t'
 
@@ -216,13 +216,13 @@ def t_code_string(t):
     global current_line
     current_line += t.value
     mark(t)
-    if debug: print "scanner saw string:", t.value
+    if debug: print("scanner saw string:", t.value)
     t.lexer.lineno += t.value.count('\n')
 
 def t_code_comment(t):
     r'[ \t\f\r]*\#.*'
     global current_line
-    if debug: print "scanner saw comment:", t.value
+    if debug: print("scanner saw comment:", t.value)
     #current_line += t.value
 
 def t_code_plan(t):
@@ -230,7 +230,7 @@ def t_code_plan(t):
     global current_line
     mark(t)
     if debug:
-        print "scanner saw '$$', current_plan_name is", current_plan_name
+        print("scanner saw '$$', current_plan_name is", current_plan_name)
     if not current_plan_name:
         raise SyntaxError("'$$' only allowed in plan_specs within the "
                           "'when' clause",
@@ -247,7 +247,7 @@ def t_code_pattern_var(t):
                           syntaxerror_params(t.lexpos))
     current_line += pattern_var_format % t.value[1:]
     plan_vars_needed.append(t.value[1:])
-    if debug: print "scanner saw pattern_var:", t.value
+    if debug: print("scanner saw pattern_var:", t.value)
 
 def t_code_continuation(t):
     r'\\(\r)?\n'
@@ -256,7 +256,7 @@ def t_code_continuation(t):
     current_line += '\\'
     code.append(current_line)
     current_line = ''
-    if debug: print "scanner saw continuation:", t.value
+    if debug: print("scanner saw continuation:", t.value)
 
 def t_code_open(t):
     r'[{([]'
@@ -280,20 +280,20 @@ def t_code_symbol(t):
     global current_line
     mark(t)
     current_line += t.value
-    if debug: print "scanner saw symbol:", t.value
+    if debug: print("scanner saw symbol:", t.value)
 
 def t_code_space(t):
     r'''[ \t]+'''
     global current_line
     current_line += t.value
-    if debug: print "scanner saw space chars:", t.value
+    if debug: print("scanner saw space chars:", t.value)
 
 def t_code_other(t):
     r'''[^][(){}$\\'"\r\n0-9a-zA-Z_ \t]+'''
     global current_line
     mark(t)
     current_line += t.value
-    if debug: print "scanner saw other chars:", t.value
+    if debug: print("scanner saw other chars:", t.value)
 
 def t_code_NL_TOK(t):
     r'(\r)?\n([ \t]*(\#.*)?(\r)?\n)*[ \t]*'
@@ -302,12 +302,12 @@ def t_code_NL_TOK(t):
         code.append(current_line)
         current_line = ''
     indent = count_indent(t.value[t.value.rindex('\n') + 1:])[0]
-    if debug: print "scanner saw nl:", t.value, "new indent is", indent
+    if debug: print("scanner saw nl:", t.value, "new indent is", indent)
     if indent < code_indent_level and code_nesting_level == 0:
         t.lexer.skip(-len(t.value))
         t.type = 'CODE_TOK'
         t.value = tuple(code), tuple(plan_vars_needed), code_lineno, code_lexpos
-        if debug: print "scanner begin('INITIAL')"
+        if debug: print("scanner begin('INITIAL')")
         t.lexer.begin('INITIAL')
         return t
     t.lexer.lineno += t.value.count('\n')
@@ -508,27 +508,27 @@ def unescape(s):
             ans.append(unicodedata.lookup(s[i+3:end]))
             start = end + 1
         elif s[i+1] == 'u':
-            ans.append(unichr(int(s[i+2:i+6], 16)))
+            ans.append(chr(int(s[i+2:i+6], 16)))
             start = i + 6
         elif s[i+1] == 'U':
-            ans.append(unichr(int(s[i+2:i+10], 16)))
+            ans.append(chr(int(s[i+2:i+10], 16)))
             start = i + 10
         elif s[i+1] in string.octdigits:
             if s[i+2] not in string.octdigits:
-                ans.append(unichr(int(s[i+2:i+3], 8)))
+                ans.append(chr(int(s[i+2:i+3], 8)))
                 start = i + 3
             elif s[i+3] not in string.octdigits:
-                ans.append(unichr(int(s[i+2:i+4], 8)))
+                ans.append(chr(int(s[i+2:i+4], 8)))
                 start = i + 4
             else:
-                ans.append(unichr(int(s[i+2:i+5], 8)))
+                ans.append(chr(int(s[i+2:i+5], 8)))
                 start = i + 5
         elif s[i+1] == 'x':
             if s[i+3] not in string.hexdigits:
-                ans.append(unichr(int(s[i+2:i+3], 16)))
+                ans.append(chr(int(s[i+2:i+3], 16)))
                 start = i + 3
             else:
-                ans.append(unichr(int(s[i+2:i+4], 16)))
+                ans.append(chr(int(s[i+2:i+4], 16)))
                 start = i + 4
         else:
             ans.append(s[i])
@@ -544,7 +544,7 @@ class token_iterator(object):
         lexer.lineno = 1
         lexer.input(input)
     def __iter__(self): return self
-    def next(self):
+    def __next__(self):
         t = lex.token()
         if t: return t
         raise StopIteration
@@ -567,7 +567,7 @@ def tokenize(s):
         LexToken(IDENTIFIER_TOK,'name2',4,39)
     '''
     for t in token_iterator(s):
-        print t
+        print(t)
 
 def tokenize_file(filename = 'TEST/scan_test'):
     r""" Used for testing.
@@ -594,12 +594,12 @@ def tokenize_file(filename = 'TEST/scan_test'):
         LexToken(NUMBER_TOK,0,8,124)
         LexToken(RP_TOK,')',8,125)
         LexToken(NL_TOK,'\n',8,126)
-        LexToken(NUMBER_TOK,3.1400000000000001,9,129)
-        LexToken(NUMBER_TOK,0.98999999999999999,9,134)
+        LexToken(NUMBER_TOK,3.14,9,129)
+        LexToken(NUMBER_TOK,0.99,9,134)
         LexToken(NUMBER_TOK,3.0,10,143)
-        LexToken(NUMBER_TOK,0.29999999999999999,10,146)
+        LexToken(NUMBER_TOK,0.3,10,146)
         LexToken(NUMBER_TOK,3000000.0,10,149)
-        LexToken(NUMBER_TOK,3.0000000000000001e-06,10,153)
+        LexToken(NUMBER_TOK,3e-06,10,153)
         LexToken(NL_TOK,'\n',10,158)
         LexToken(DEINDENT_TOK,'\n    ',11,158)
         LexToken(ASSERT_TOK,'assert',11,163)
@@ -638,7 +638,7 @@ def syntaxerror_params(pos = None, lineno = None):
                        lexer.lexdata[end] in '\r\n'):
         end -= 1
     start = end
-    if debug: print "pos", pos, "lineno", lineno, "end", end
+    if debug: print("pos", pos, "lineno", lineno, "end", end)
     start = max(lexer.lexdata.rfind('\r', 0, end),
                 lexer.lexdata.rfind('\n', 0, end)) + 1
     column = pos - start + 1
@@ -652,7 +652,7 @@ def syntaxerror_params(pos = None, lineno = None):
     if goal_mode and start == 0 and lexer.lexdata.startswith('check ', start):
         start += 6
         column -= 6
-    if debug: print "start", start, "column", column, "end", end
+    if debug: print("start", start, "column", column, "end", end)
     return (lexer.filename, lineno, column, lexer.lexdata[start:end])
 
 lexer = None

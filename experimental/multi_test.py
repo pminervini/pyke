@@ -2,9 +2,9 @@
 
 class top(object):
     def foo(self, indent = 0):
-        print ' ' * indent + "top.foo"
+        print(' ' * indent + "top.foo")
     def bar(self):
-        print "top.bar"
+        print("top.bar")
 
 class left(top):
     r'''
@@ -16,7 +16,7 @@ class left(top):
         top.bar
     '''
     def foo(self, indent = 0):
-        print ' ' * indent + "left.foo"
+        print(' ' * indent + "left.foo")
         super(left, self).foo(indent + 4)
 
 class right(top):
@@ -27,10 +27,10 @@ class right(top):
             top.foo
     '''
     def foo(self, indent = 0):
-        print ' ' * indent + "right.foo"
+        print(' ' * indent + "right.foo")
         super(right, self).foo(indent + 4)
     def bar(self):
-        print "right.bar"
+        print("right.bar")
 
 class bottom(left, right):
     r'''
@@ -44,7 +44,7 @@ class bottom(left, right):
         right.bar
     '''
     def foo(self, indent = 0):
-        print ' ' * indent + "bottom.foo"
+        print(' ' * indent + "bottom.foo")
         super(bottom, self).foo(indent + 4)
 
 def test():

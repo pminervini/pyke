@@ -1,4 +1,4 @@
-# $Id: compiler.krb d38305cf599c 2010-04-26 mtnyogi $
+# $Id: compiler.krb 2922d107410e 2010-04-26 mtnyogi $
 # 
 # Copyright © 2007-2008 Bruce Frederiksen
 # 
@@ -756,4 +756,5 @@ python_block
                        ())
     
 bc_extras
+    import itertools
     from pyke.krb_compiler import helpers

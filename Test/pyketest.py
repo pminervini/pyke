@@ -1,13 +1,13 @@
 # pyketest.py
 
-from __future__ import with_statement
+
 import types
 import unittest
 from pyke import knowledge_engine
 from pyke import krb_traceback
 
 def mk_engine(*paths):
-    if isinstance(self.paths, types.StringTypes):
+    if isinstance(self.paths, str):
         self.paths = (self.paths,)
     return knowledge_engine.engine(*paths)
 

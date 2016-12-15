@@ -1,4 +1,4 @@
-# $Id: target_pkg.py b034e6155de4 2010-04-13 mtnyogi $
+# $Id: target_pkg.py 2922d107410e 2010-04-26 mtnyogi $
 # coding=utf-8
 # 
 # Copyright © 2009 Bruce Frederiksen
@@ -26,10 +26,11 @@
     compiled_krb package.
 """
 
-from __future__ import with_statement
+
 import os, os.path
 import time
 import sys
+import imp
 import re
 import pyke
 
@@ -101,8 +102,8 @@ class target_pkg(object):
                     os.path.dirname(import_(self.package_name).__file__)
             except ImportError:
                 if debug:
-                    print >> sys.stderr, "target_pkg: no target package", \
-                                         self.package_name
+                    print("target_pkg: no target package", \
+                                         self.package_name, file=sys.stderr)
                 # Create the target_package.
                 last_dot = self.package_name.rfind('.')
                 if last_dot < 0:
@@ -125,31 +126,31 @@ class target_pkg(object):
                             os.path.normpath(
                               os.path.dirname(os.path.dirname(filename))))
                 if debug:
-                    print >> sys.stderr, "target_pkg package_parent_dir:", \
-                                         package_parent_dir
+                    print("target_pkg package_parent_dir:", \
+                                         package_parent_dir, file=sys.stderr)
                 target_package_dir = \
                     os.path.join(package_parent_dir,
                                  self.package_name[last_dot + 1:])
                 if debug:
-                    print >> sys.stderr, "target_pkg target_package_dir:", \
-                                         target_package_dir
+                    print("target_pkg target_package_dir:", \
+                                         target_package_dir, file=sys.stderr)
                 if not os.path.lexists(target_package_dir):
                     if debug:
-                        print >> sys.stderr, "target_pkg: mkdir", \
-                                             target_package_dir
+                        print("target_pkg: mkdir", \
+                                             target_package_dir, file=sys.stderr)
                     os.mkdir(target_package_dir)
 
                 # Does __init__.py file exist?
                 init_filepath = \
                     os.path.join(target_package_dir, '__init__.py')
                 if debug:
-                    print >> sys.stderr, "target_pkg init_filepath:", \
-                                         init_filepath
+                    print("target_pkg init_filepath:", \
+                                         init_filepath, file=sys.stderr)
                 if not os.path.lexists(init_filepath):
                     # Create empty __init__.py file.
                     if debug:
-                        print >> sys.stderr, "target_pkg: creating", \
-                                             init_filepath
+                        print("target_pkg: creating", \
+                                             init_filepath, file=sys.stderr)
                     open(init_filepath, 'w').close()
             filename = os.path.join(target_package_dir,
                                     'compiled_pyke_files.py')
@@ -160,7 +161,7 @@ class target_pkg(object):
             self.filename = filename[:-1]
         self.directory = os.path.dirname(self.filename)
         if debug:
-            print >> sys.stderr, "target_pkg:", self.package_name, self.filename
+            print("target_pkg:", self.package_name, self.filename, file=sys.stderr)
         self.loader = loader
 
         if compiler_version == pyke.compiler_version:
@@ -181,7 +182,7 @@ class target_pkg(object):
         ''' This should be called once by engine.__init__ prior to calling
             add_source_package.
         '''
-        if debug: print >> sys.stderr, "target_pkg.reset"
+        if debug: print("target_pkg.reset", file=sys.stderr)
         self.dirty = False
         self.check_sources = check_sources
 
@@ -194,13 +195,13 @@ class target_pkg(object):
     def add_source_package(self, source_package_name, path_from_package,
                                  source_package_dir):
         if debug:
-            print >> sys.stderr, "target_pkg.add_source_package " \
+            print("target_pkg.add_source_package " \
                                    "source_package_name:", \
-                                 repr(source_package_name)
-            print >> sys.stderr, "    path_from_package:", \
-                                 repr(path_from_package)
-            print >> sys.stderr, "    source_package_dir:", \
-                                 repr(source_package_dir)
+                                 repr(source_package_name), file=sys.stderr)
+            print("    path_from_package:", \
+                                 repr(path_from_package), file=sys.stderr)
+            print("    source_package_dir:", \
+                                 repr(source_package_dir), file=sys.stderr)
         if not self.loader:
             assert (source_package_name, path_from_package) not in \
                      self.source_packages, \
@@ -228,23 +229,23 @@ class target_pkg(object):
             for deleted_filepath \
              in [src_filepath
                  for src_pkg_name, src_path_from_pkg, src_filepath
-                  in self.sources.iterkeys()
+                  in self.sources.keys()
                      if src_pkg_name == source_package_name and
                         src_path_from_pkg == path_from_package and
                         src_filepath not in sources]:
                 if debug:
-                    print >> sys.stderr, "del:", source_package_name, filepath
+                    print("del:", source_package_name, filepath, file=sys.stderr)
                 del self.sources[source_package_name, path_from_package,
                                  deleted_filepath]
 
     def add_source(self, source_package_name, path_from_package,
                          source_filepath, source_mtime):
         if debug:
-            print >> sys.stderr, "target_pkg.add_source:", \
+            print("target_pkg.add_source:", \
                                  source_package_name, path_from_package, \
-                                 source_filepath
+                                 source_filepath, file=sys.stderr)
         rb_name = os.path.splitext(os.path.basename(source_filepath))[0]
-        if debug: print >> sys.stderr, "rb_name:", rb_name
+        if debug: print("rb_name:", rb_name, file=sys.stderr)
         if not Name_test.match(rb_name):
             raise ValueError("%s: %s illegal as python identifier" %
                              (source_filepath, rb_name))
@@ -252,10 +253,10 @@ class target_pkg(object):
             raise ValueError("%s: duplicate knowledge base name" % rb_name)
         self.rb_names.add(rb_name)
         key = source_package_name, path_from_package, source_filepath
-        if debug: print >> sys.stderr, "key:", key
+        if debug: print("key:", key, file=sys.stderr)
         if self.sources.get(key, (0,))[0] < source_mtime:
             if debug:
-                print >> sys.stderr, source_filepath, "needs to be compiled"
+                print(source_filepath, "needs to be compiled", file=sys.stderr)
             self.sources[key] = []
             self.dirty = True
 
@@ -264,13 +265,13 @@ class target_pkg(object):
         return getattr(self, "%s_%s" % (prefix, ext))(filename, *args)
 
     def compile(self, engine):
-        if debug: print >> sys.stderr, "%s.compile:" % self.package_name
+        if debug: print("%s.compile:" % self.package_name, file=sys.stderr)
         global krb_compiler
         if self.check_sources and not self.loader:
             initialized = False
             for (source_package_name, path_from_package, source_filename), \
                 value \
-             in self.sources.iteritems():
+             in self.sources.items():
                 if not value and \
                    (source_package_name, path_from_package) in \
                      self.source_packages:
@@ -286,19 +287,19 @@ class target_pkg(object):
                                 self.source_packages[source_package_name,
                                                      path_from_package],
                                 source_filename))
-                    if debug: print >> sys.stderr, "target_files:", target_files
+                    if debug: print("target_files:", target_files, file=sys.stderr)
                     value.append(time.time())
                     value.extend(target_files)
                     self.compiled_targets.update(target_files)
 
     def compile_krb(self, source_filename):
-        if debug: print >> sys.stderr, "compile_krb:", source_filename
+        if debug: print("compile_krb:", source_filename, file=sys.stderr)
         rb_name = os.path.basename(source_filename)[:-4]
         return krb_compiler.compile_krb(rb_name, self.package_name,
                                         self.directory, source_filename)
 
     def compile_kfb(self, source_filename):
-        if debug: print >> sys.stderr, "compile_kfb:", source_filename
+        if debug: print("compile_kfb:", source_filename, file=sys.stderr)
         try:
             fbc_name = os.path.basename(source_filename)[:-4] + '.fbc'
             fbc_path = os.path.join(self.directory, fbc_name)
@@ -309,7 +310,7 @@ class target_pkg(object):
             raise
 
     def compile_kqb(self, source_filename):
-        if debug: print >> sys.stderr, "compile_kqb:", source_filename
+        if debug: print("compile_kqb:", source_filename, file=sys.stderr)
         try:
             qbc_name = os.path.basename(source_filename)[:-4] + '.qbc'
             qbc_path = os.path.join(self.directory, qbc_name)
@@ -320,7 +321,7 @@ class target_pkg(object):
             raise
 
     def write(self):
-        if debug: print >> sys.stderr, "target_pkg.write"
+        if debug: print("target_pkg.write", file=sys.stderr)
         if self.dirty:
             sys.stderr.write('writing [%s]/%s\n' % 
                                (self.package_name,
@@ -338,10 +339,10 @@ class target_pkg(object):
                 f.write("def get_target_pkg():\n")
                 f.write("    return target_pkg.target_pkg(__name__, __file__, "
                         "pyke_version, loader, {\n")
-                for key, value in self.sources.iteritems():
-                    if debug: print >> sys.stderr, "write got:", key, value
+                for key, value in self.sources.items():
+                    if debug: print("write got:", key, value, file=sys.stderr)
                     if (key[0], key[1]) in self.source_packages:
-                        if debug: print >> sys.stderr, "writing:", key, value
+                        if debug: print("writing:", key, value, file=sys.stderr)
                         f.write("         %r:\n" % (key,))
                         f.write("           %r,\n" % (value,))
                 f.write("        },\n")
@@ -355,17 +356,17 @@ class target_pkg(object):
                            load_fb = True, load_qb = True):
         load_flags = {'load_fc': load_fc, 'load_bc': load_bc,
                       'load_fb': load_fb, 'load_qb': load_qb}
-        if debug: print >> sys.stderr, "target_pkg.load:", load_flags
+        if debug: print("target_pkg.load:", load_flags, file=sys.stderr)
         for (source_package_name, path_from_package, source_filename), value \
-         in self.sources.iteritems():
+         in self.sources.items():
             if not self.check_sources or self.loader or \
                (source_package_name, path_from_package) in self.source_packages:
                 for target_filename in value[1:]:
-                    if debug: print >> sys.stderr, "load:", target_filename
+                    if debug: print("load:", target_filename, file=sys.stderr)
                     self.do_by_ext('load', target_filename, engine, load_flags)
 
     def load_py(self, target_filename, engine, flags):
-        if debug: print >> sys.stderr, "load_py:", target_filename
+        if debug: print("load_py:", target_filename, file=sys.stderr)
         target_module = target_filename[:-3]  # strip '.py' extension.
         module_path = self.package_name + '.' + target_module
         if target_module.endswith('_fc'):
@@ -383,26 +384,26 @@ class target_pkg(object):
                                    target_filename)
 
     def load_fbc(self, target_filename, engine, flags):
-        if debug: print >> sys.stderr, "load_fbc:", target_filename
+        if debug: print("load_fbc:", target_filename, file=sys.stderr)
         if flags['load_fb']:
             self.load_pickle(target_filename, engine)
 
     def load_qbc(self, target_filename, engine, flags):
-        if debug: print >> sys.stderr, "load_qbc:", target_filename
+        if debug: print("load_qbc:", target_filename, file=sys.stderr)
         if flags['load_qb']:
             self.load_pickle(target_filename, engine)
 
     def load_module(self, module_path, filename, engine, do_import = True):
-        if debug: print >> sys.stderr, "load_module:", module_path, filename
+        if debug: print("load_module:", module_path, filename, file=sys.stderr)
         module = None
         if module_path in sys.modules:
-            if debug: print >> sys.stderr, "load_module: already imported"
+            if debug: print("load_module: already imported", file=sys.stderr)
             module = sys.modules[module_path]
             if filename in self.compiled_targets:
-                if debug: print >> sys.stderr, "load_module: reloading"
-                module = reload(module)
+                if debug: print("load_module: reloading", file=sys.stderr)
+                module = imp.reload(module)
         elif do_import:
-            if debug: print >> sys.stderr, "load_module: importing"
+            if debug: print("load_module: importing", file=sys.stderr)
             module = import_(module_path)
         if module is not None and \
            getattr(module, 'compiler_version', 0) != pyke.compiler_version:
@@ -414,18 +415,17 @@ class target_pkg(object):
 
     def load_pickle(self, filename, engine):
         global pickle
-        if debug: print >> sys.stderr, "load_pickle:", filename
+        if debug: print("load_pickle:", filename, file=sys.stderr)
         try:
             pickle
         except NameError:
-            import cPickle as pickle
+            import pickle as pickle
         full_path = os.path.join(self.directory, filename)
         if self.loader:
             import contextlib
-            import StringIO
+            import io
             ctx_lib = \
-                contextlib.closing(
-                    StringIO.StringIO(self.loader.get_data(full_path)))
+                contextlib.closing(io.BytesIO(self.loader.get_data(full_path)))
         else:
             ctx_lib = open(full_path, 'rb')
         with ctx_lib as f:
@@ -445,9 +445,9 @@ class target_pkg(object):
         try:
             pickle
         except NameError:
-            import cPickle as pickle
-            import copy_reg
-            copy_reg.pickle(slice, lambda s: (slice, (s.start, s.stop, s.step)))
+            import pickle as pickle
+            import copyreg
+            copyreg.pickle(slice, lambda s: (slice, (s.start, s.stop, s.step)))
         sys.stderr.write("writing [%s]/%s\n" %
                            (self.package_name, os.path.basename(path)))
         with open(path, 'wb') as f:
@@ -459,7 +459,7 @@ def _raise_exc(exc): raise exc
 def import_(modulename):
     ''' modulepath does not include .py
     '''
-    if debug: print >> sys.stderr, "import_:", modulename
+    if debug: print("import_:", modulename, file=sys.stderr)
     mod = __import__(modulename)
     for comp in modulename.split('.')[1:]:
         mod = getattr(mod, comp)

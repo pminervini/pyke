@@ -22,12 +22,12 @@
 # THE SOFTWARE.
 
 
-from __future__ import with_statement
+
 import os.path
 import contextlib
 import sqlite3 as db
 from pyke import test
-import load_sqlite3_schema
+from . import load_sqlite3_schema
 
 Sqlgen_dir = os.path.dirname(load_sqlite3_schema.__file__)
 Sqlite3_db = os.path.join(Sqlgen_dir, "sqlite3.db")
@@ -37,9 +37,9 @@ class cursor(object):
     def __init__(self, width):
         self.width = width
     def execute(self, str, parameters=None):
-        print "execute got:"
-        print str
-        if parameters: print "with:", parameters
+        print("execute got:")
+        print(str)
+        if parameters: print("with:", parameters)
     def fetchone(self, base = 44):
         return (base,) * self.width
     def fetchall(self):
@@ -53,20 +53,20 @@ def init():
 def run_plan(globals, locals):
     plan = locals['plan']
     args = locals['args']
-    starting_keys = dict(zip(args[0], range(1, len(args[0]) + 1)))
-    print "executing the plan with debug database cursor"
+    starting_keys = dict(list(zip(args[0], list(range(1, len(args[0]) + 1)))))
+    print("executing the plan with debug database cursor")
     ans = plan(cursor(len(args[1])), starting_keys)
-    print "plan returned:", ans
+    print("plan returned:", ans)
     while True:
-        print
-        data_values = raw_input("%s: " % str(args[0])).split()
+        print()
+        data_values = input("%s: " % str(args[0])).split()
         if not data_values: break
-        starting_keys = dict(zip(args[0], data_values))
-        print "executing the plan with real database cursor"
+        starting_keys = dict(list(zip(args[0], data_values)))
+        print("executing the plan with real database cursor")
         with contextlib.closing(db.connect(Sqlite3_db)) as conn:
             with contextlib.closing(conn.cursor()) as cur:
                 ans = plan(cur, starting_keys)
-        print "plan returned:", ans
+        print("plan returned:", ans)
 
 def run():
     if not test.Did_init: init()

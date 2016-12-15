@@ -1,4 +1,4 @@
-# $Id: helpers.py 081917d30609 2010-03-05 mtnyogi $
+# $Id: helpers.py 4dca5ad0f397 2010-03-10 mtnyogi $
 # coding=utf-8
 # 
 # Copyright © 2007-2008 Bruce Frederiksen
@@ -27,7 +27,6 @@ def fc_head(rb_name):
     return (
         "# %s_fc.py" % rb_name,
         "",
-        "from __future__ import with_statement",
         "from pyke import contexts, pattern, fc_rule, knowledge_base",
         "",
         "pyke_version = %r" % pyke.version,
@@ -38,8 +37,6 @@ def bc_head(rb_name):
     return (
         "# %s_bc.py" % rb_name,
         "",
-        "from __future__ import with_statement",
-        "import itertools",
         "from pyke import contexts, pattern, bc_rule",
         "",
         "pyke_version = %r" % pyke.version,
@@ -70,9 +67,9 @@ def goal(rb_name, rule_name, goal_info, pred_plan_lines, python_lines):
         "try:",
         ("INDENT", 2),
         ("STARTING_LINENO", start_lineno),
-        "if all(itertools.imap(lambda pat, arg:",
+        "if all(map(lambda pat, arg:",
         ("INDENT", 2),
-        ("INDENT", 20),
+        ("INDENT", 9),
         ("INDENT", 2),
         "pat.match_pattern(context, context,",
         ("INDENT", 18),

@@ -1,4 +1,4 @@
-# $Id: special.py 081917d30609 2010-03-05 mtnyogi $
+# $Id: special.py 4dca5ad0f397 2010-03-10 mtnyogi $
 # coding=utf-8
 # 
 # Copyright © 2007-2008 Bruce Frederiksen
@@ -63,11 +63,11 @@ class claim_goal(special_fn):
         >>> cg = claim_goal(stub())
         >>> mgr = cg.prove(None, None, None)
         >>> gen = iter(mgr.__enter__())
-        >>> gen.next()
-        >>> gen.next()
+        >>> next(gen)
+        >>> next(gen)
         Traceback (most recent call last):
             ...
-        StopProof
+        pyke.rule_base.StopProof
         >>> mgr.__exit__(None, None, None)
         >>> cg.lookup(None, None, None)
         Traceback (most recent call last):
@@ -104,8 +104,11 @@ def run_cmd(pat_context, cmd_pat, cwd_pat=None, stdin_pat=None):
         ...         pattern.pattern_literal('/home/bruce'))
         (0, '/home/bruce\n', '')
     '''
-    stdin = None if stdin_pat is None \
-                 else stdin_pat.as_data(pat_context)
+    stdin = None
+    if stdin_pat is not None:
+        data = stdin_pat.as_data(pat_context)
+        if data is not None:
+            stdin = data.encode()
     process = subprocess.Popen(cmd_pat.as_data(pat_context),
                                bufsize=-1,
                                universal_newlines=True,
@@ -126,9 +129,9 @@ class check_command(special_both):
         >>> ctxt = contexts.simple_context()
         >>> mgr = cc.lookup(ctxt, ctxt, (pattern.pattern_literal(('true',)),))
         >>> gen = iter(mgr.__enter__())
-        >>> gen.next()
+        >>> next(gen)
         >>> ctxt.dump()
-        >>> gen.next()
+        >>> next(gen)
         Traceback (most recent call last):
             ...
         StopIteration
@@ -136,7 +139,7 @@ class check_command(special_both):
         >>> mgr.__exit__(None, None, None)
         >>> mgr = cc.lookup(ctxt, ctxt, (pattern.pattern_literal(('false',)),))
         >>> gen = iter(mgr.__enter__())
-        >>> gen.next()
+        >>> next(gen)
         Traceback (most recent call last):
             ...
         StopIteration
@@ -144,9 +147,9 @@ class check_command(special_both):
         >>> mgr.__exit__(None, None, None)
         >>> mgr = cc.prove(ctxt, ctxt, (pattern.pattern_literal(('true',)),))
         >>> gen = iter(mgr.__enter__())
-        >>> gen.next()
+        >>> next(gen)
         >>> ctxt.dump()
-        >>> gen.next()
+        >>> next(gen)
         Traceback (most recent call last):
             ...
         StopIteration
@@ -177,10 +180,10 @@ class command(special_both):
         ...                (contexts.variable('ans'),
         ...                 pattern.pattern_literal(('echo', 'hi'))))
         >>> gen = iter(mgr.__enter__())
-        >>> gen.next()
+        >>> next(gen)
         >>> ctxt.dump()
         ans: ('hi',)
-        >>> gen.next()
+        >>> next(gen)
         Traceback (most recent call last):
             ...
         StopIteration
@@ -192,10 +195,10 @@ class command(special_both):
         ...                 pattern.pattern_literal(None),
         ...                 pattern.pattern_literal('line1\nline2\nline3\n')))
         >>> gen = iter(mgr.__enter__())
-        >>> gen.next()
+        >>> next(gen)
         >>> ctxt.dump()
         ans: ('line1', 'line2', 'line3')
-        >>> gen.next()
+        >>> next(gen)
         Traceback (most recent call last):
             ...
         StopIteration
@@ -242,10 +245,10 @@ class general_command(special_both):
         ...                 (contexts.variable('ans'),
         ...                  pattern.pattern_literal(('echo', 'hi'))))
         >>> gen = iter(mgr.__enter__())
-        >>> gen.next()
+        >>> next(gen)
         >>> ctxt.dump()
         ans: (0, 'hi\n', '')
-        >>> gen.next()
+        >>> next(gen)
         Traceback (most recent call last):
             ...
         StopIteration
@@ -280,4 +283,5 @@ def create_for(engine):
     check_command(special_base)
     command(special_base)
     general_command(special_base)
+
 

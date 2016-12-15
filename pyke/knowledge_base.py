@@ -78,7 +78,7 @@ class knowledge_base(object):
         pass
 
     def reset(self):
-        for entity in self.entity_lists.itervalues(): entity.reset()
+        for entity in self.entity_lists.values(): entity.reset()
 
     def __repr__(self): return "<%s %s>" % (self.__class__.__name__, self.name)
 

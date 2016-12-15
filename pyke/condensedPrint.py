@@ -53,7 +53,7 @@ def format(x, lenleft, maxlen, maxlines, indent = 0):
     """
     if not isinstance(x, (list, tuple)):
         if len(x) <= lenleft: return x, 0
-        if isinstance(x, types.StringTypes) and x[-1] in "'\"":
+        if isinstance(x, str) and x[-1] in "'\"":
             if lenleft >= 5: return x[:lenleft-4] + '...' + x[-1], 0
         else:
             if lenleft >= 4: return x[:lenleft-3] + '...', 0
@@ -84,17 +84,17 @@ def format(x, lenleft, maxlen, maxlines, indent = 0):
     return ans + x[-1], lines_taken
 
 def cprint2(obj, maxdepth):
-    if isinstance(obj, types.TupleType):
+    if isinstance(obj, tuple):
         return printSeq('(', ')', obj, maxdepth)
-    if isinstance(obj, types.ListType):
+    if isinstance(obj, list):
         return printSeq('[', ']', obj, maxdepth)
-    if isinstance(obj, types.DictType):
+    if isinstance(obj, dict):
         return printDict(obj, maxdepth)
-    if isinstance(obj, types.StringTypes):
+    if isinstance(obj, str):
         return printStr(obj)
     try:
         return str(obj)
-    except StandardError, e:
+    except Exception as e:
         exc_type, exc_value, exc_traceback = sys.exc_info()
         import traceback
         if isinstance(obj, types.InstanceType): obj_type = obj.__class__
@@ -162,7 +162,7 @@ def printDict(dict, maxdepth,
     """
     if maxdepth < 1: return '&'
     maxdepth -= 1
-    keys = dict.keys()
+    keys = list(dict.keys())
     keys.sort()
     return [startChar] + \
            [item(key, dict[key], maxdepth, separator) for key in keys] + \

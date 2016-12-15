@@ -1,4 +1,4 @@
-.. $Id: index.txt b1a8e87f114a 2010-03-10 mtnyogi $
+.. $Id: index.txt 4dca5ad0f397 2010-03-10 mtnyogi $
 .. 
 .. Copyright © 2007-2010 Bruce Frederiksen
 .. 
@@ -34,7 +34,7 @@ restindex
 /restindex
 
 uservalues
-    filedate: $Id: index.txt b1a8e87f114a 2010-03-10 mtnyogi $
+    filedate: $Id: index.txt 4dca5ad0f397 2010-03-10 mtnyogi $
 /uservalues
 
 ==========

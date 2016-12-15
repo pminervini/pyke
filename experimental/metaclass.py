@@ -20,8 +20,8 @@ class metaclass_option1(type): # this _must_ be derived from 'type'!
         #
         # We don't need to define an __init__ method here, but I was just
         # curious about how this thing works...
-        print "metaclass: name", name, ", bases", bases, \
-              ", dict keys", tuple(sorted(dict.keys()))
+        print("metaclass: name", name, ", bases", bases, \
+              ", dict keys", tuple(sorted(dict.keys())))
         super(metaclass_option1, self).__init__(name, bases, dict)
         
     def __call__(self, *args, **kws):
@@ -29,7 +29,7 @@ class metaclass_option1(type): # this _must_ be derived from 'type'!
         # a function).
         obj = super(metaclass_option1, self).__call__(*args, **kws)
         del obj._ignore_setattr
-        print "add instance", obj, "to", self.knowledge_base
+        print("add instance", obj, "to", self.knowledge_base)
         return obj
 
 
@@ -50,8 +50,8 @@ class metaclass_option2(type): # this _must_ be derived from 'type'!
 
     def __new__(mcl, name, bases, clsdict):
  
-        print "metaclass_option2.__new__: class dict before __new__: name", name, ", bases", bases, \
-              ", dict keys", tuple(clsdict.keys()), ", dict values", tuple(clsdict.values())
+        print("metaclass_option2.__new__: class dict before __new__: name", name, ", bases", bases, \
+              ", dict keys", tuple(clsdict.keys()), ", dict values", tuple(clsdict.values()))
         
         def __setattr__(self, attr, value):
             # This gets called when any attribute is changed.  We would need to
@@ -64,8 +64,8 @@ class metaclass_option2(type): # this _must_ be derived from 'type'!
             # identical to the first, but '==' to it: for example, 4 and 4.0.
             if self.__instance__.get(self, False) :
                 if getattr(self, attr) != value:                    
-                    print "metaclass.__new__: notify knowledge base", \
-                          "of attribute change: (%s, %s, %s)" % (self, attr, value)
+                    print("metaclass.__new__: notify knowledge base", \
+                          "of attribute change: (%s, %s, %s)" % (self, attr, value))
                                         
                     if self.__cls__setattr__ != None:
                         self.__cls__setattr__(attr, value)
@@ -90,8 +90,8 @@ class metaclass_option2(type): # this _must_ be derived from 'type'!
         clsdict['__cls__setattr__'] = cls__setattr__
         clsdict['__instance__'] = {}    
         
-        print "metaclass_option2.__new__: class dict after __new__: name", name, ", bases", bases, \
-              ", dict keys", tuple(sorted(clsdict.keys())), ", dict values", tuple(clsdict.values())
+        print("metaclass_option2.__new__: class dict after __new__: name", name, ", bases", bases, \
+              ", dict keys", tuple(sorted(clsdict.keys())), ", dict values", tuple(clsdict.values()))
      
         return super(metaclass_option2, mcl).__new__(mcl, name, bases, clsdict)
     
@@ -118,11 +118,11 @@ class metaclass_option2(type): # this _must_ be derived from 'type'!
         
         obj.__instance__[obj] = True
                
-        print "add instance of class", cls.__name__, "to knowledge base"        
+        print("add instance of class", cls.__name__, "to knowledge base")        
         return obj
 
 
-class tracked_object(object):
+class tracked_object(object, metaclass=metaclass_option1):
     r'''
         All classes to be tracked by an object base would be derived from this
         one:
@@ -130,7 +130,7 @@ class tracked_object(object):
         >>> class foo(tracked_object):
         ...     def __init__(self, arg):
         ...         super(foo, self).__init__()
-        ...         print "foo.__init__:", arg
+        ...         print("foo.__init__:", arg)
         ...         self.x = arg    # should be ignored
         ... # doctest: +NORMALIZE_WHITESPACE
         metaclass: name foo , bases (<class 'experimental.metaclass.tracked_object'>,) ,
@@ -142,7 +142,7 @@ class tracked_object(object):
         >>> class bar(foo):
         ...     def __init__(self, arg1, arg2):
         ...         super(bar, self).__init__(arg1)
-        ...         print "bar.__init__:", arg1, arg2
+        ...         print("bar.__init__:", arg1, arg2)
         ...         self.y = arg2    # should be ignored
         ... # doctest: +NORMALIZE_WHITESPACE
         metaclass: name bar , bases (<class 'experimental.metaclass.foo'>,) ,
@@ -220,7 +220,6 @@ class tracked_object(object):
           (<experimental.metaclass.bar object at 0x...>, z, wasn't set)
     
     '''
-    __metaclass__ = metaclass_option1
     _not_bound = unique('_not_bound') # a value that should != any other value!
     def __init__(self):
         self._ignore_setattr = True
@@ -235,12 +234,12 @@ class tracked_object(object):
         # a '!=' check could theoretically lead to problems.  For example this
         # would fail to change the attribute to another value that wasn't
         # identical to the first, but '==' to it: for example, 4 and 4.0.
-        print "tracked_object.__setattr__ called on object %s with property %s and value %s" % (self, attr, value)
+        print("tracked_object.__setattr__ called on object %s with property %s and value %s" % (self, attr, value))
         if getattr(self, attr, self._not_bound) != value:
             super(tracked_object, self).__setattr__(attr, value)
             if not hasattr(self, '_ignore_setattr'):
-                print "tracked_object.__setattr__: notify", self.knowledge_base, \
-                      "of attribute change: (%s, %s, %s)" % (self, attr, value)
+                print("tracked_object.__setattr__: notify", self.knowledge_base, \
+                      "of attribute change: (%s, %s, %s)" % (self, attr, value))
 
 
 ''' tracked_object and foo_tracked use metaclass_option1
@@ -255,31 +254,25 @@ class foo_tracked(tracked_object):
 '''   
 class foo_base(object):    
     def __setattr__(self, attr, value):
-        print "foo_base.__setattr__ called on object %s with property %s and value %s" % (self, attr, value)
+        print("foo_base.__setattr__ called on object %s with property %s and value %s" % (self, attr, value))
    
 
-class foo_attribute_base(foo_base):
-    __metaclass__ = metaclass_option2
-    
+class foo_attribute_base(foo_base, metaclass=metaclass_option2):
     def __init__(self, arg):
         super(foo_attribute_base, self).__init__()         
         self.prop = arg
 
   
-class foo_attribute(object):
-    __metaclass__ = metaclass_option2
-    
+class foo_attribute(object, metaclass=metaclass_option2):
     def __init__(self, arg):
         super(foo_attribute, self).__init__()         
         self.prop = arg
          
     def __setattr__(self, attr, value):
-        print "foo_attribute.__setattr__ called on object %s with property %s and value %s" % (self, attr, value)
+        print("foo_attribute.__setattr__ called on object %s with property %s and value %s" % (self, attr, value))
    
                       
-class foo(object):
-     __metaclass__ = metaclass_option2
-     
+class foo(object, metaclass=metaclass_option2):
      def __init__(self, arg):
          super(foo, self).__init__()         
          self.prop = arg
@@ -287,7 +280,7 @@ class foo(object):
          #self.knowledge_base = "foo"
          
      def foo_method(self):
-        print "foo_method called"
+        print("foo_method called")
 
 def test_foo_option2():
     f1 = foo(1) # should add instance to knowledge base
@@ -319,3 +312,4 @@ def test_foo_option1():
 if __name__ == "__main__":
     #test_foo_option1()
     test_foo_option2()
+

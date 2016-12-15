@@ -1,4 +1,4 @@
-.. $Id: backward_chaining.txt 9f7068449a4b 2010-03-08 mtnyogi $
+.. $Id: backward_chaining.txt 4dca5ad0f397 2010-03-10 mtnyogi $
 .. 
 .. Copyright © 2007-2008 Bruce Frederiksen
 .. 
@@ -34,7 +34,7 @@ restindex
 /restindex
 
 uservalues
-    filedate: $Id: backward_chaining.txt 9f7068449a4b 2010-03-08 mtnyogi $
+    filedate: $Id: backward_chaining.txt 4dca5ad0f397 2010-03-10 mtnyogi $
 /uservalues
 
 =============================================
@@ -276,7 +276,7 @@ variables as arguments:
     >>> from __future__ import with_statement
     >>> with engine.prove_goal('bc_related.uncle_nephew(fred, $nephew, $distance)') as gen:
     ...     for vars, no_plan in gen:
-    ...         print vars['nephew'], vars['distance']
+    ...         print(vars['nephew'], vars['distance'])
     david ()
 
 

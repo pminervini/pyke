@@ -1,4 +1,4 @@
-.. $Id: kqb_syntax.txt 4670da845e46 2010-03-05 mtnyogi $
+.. $Id: kqb_syntax.txt 4dca5ad0f397 2010-03-10 mtnyogi $
 .. 
 .. Copyright © 2008 Bruce Frederiksen
 .. 
@@ -34,7 +34,7 @@ restindex
 /restindex
 
 uservalues
-    filedate: $Id: kqb_syntax.txt 4670da845e46 2010-03-05 mtnyogi $
+    filedate: $Id: kqb_syntax.txt 4dca5ad0f397 2010-03-10 mtnyogi $
 /uservalues
 
 ==========
@@ -421,7 +421,7 @@ Asking ``stupid_question`` and answering "y" to it::
 
     >>> engine = knowledge_engine.engine(__file__)
 
-    >>> from StringIO import StringIO
+    >>> from io import StringIO
     >>> import sys
     >>> class echo(object):
     ...     def __init__(self, f): self.f = f

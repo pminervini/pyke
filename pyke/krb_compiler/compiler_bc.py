@@ -1,7 +1,5 @@
 # compiler_bc.py
 
-from __future__ import with_statement
-import itertools
 from pyke import contexts, pattern, bc_rule
 
 pyke_version = '1.1.1'
@@ -13,11 +11,11 @@ def file(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         mark1 = context.mark(True)
         if rule.pattern(0).match_data(context, context,
@@ -137,11 +135,11 @@ def rule_decl(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         mark1 = context.mark(True)
         if rule.pattern(0).match_data(context, context,
@@ -161,11 +159,11 @@ def rule_decl_with_parent(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         mark1 = context.mark(True)
         if rule.pattern(0).match_data(context, context,
@@ -187,11 +185,11 @@ def fc_rules(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         fc_funs = []
         fc_init = []
@@ -248,11 +246,11 @@ def fc_rule_(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         flag_1 = False
         with engine.prove(rule.rule_base.root_name, 'fc_premises', context,
@@ -337,11 +335,11 @@ def fc_premises0(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         rule.rule_base.num_bc_rule_successes += 1
         yield
@@ -355,11 +353,11 @@ def fc_premises1(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         flag_1 = False
         with engine.prove(rule.rule_base.root_name, 'fc_premise', context,
@@ -423,11 +421,11 @@ def fc_premise(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         with engine.prove(rule.rule_base.root_name, 'gen_fc_for', context,
                           (rule.pattern(0),
@@ -485,11 +483,11 @@ def gen_fc_for_false(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         mark1 = context.mark(True)
         if rule.pattern(0).match_data(context, context,
@@ -524,11 +522,11 @@ def gen_fc_for_true(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         mark1 = context.mark(True)
         if rule.pattern(0).match_data(context, context,
@@ -558,11 +556,11 @@ def fc_first(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         mark1 = context.mark(True)
         if rule.pattern(0).match_data(context, context,
@@ -616,11 +614,11 @@ def fc_forall_None(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         flag_1 = False
         with engine.prove(rule.rule_base.root_name, 'fc_premises', context,
@@ -662,11 +660,11 @@ def fc_forall_require(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         mark1 = context.mark(True)
         if rule.pattern(0).match_data(context, context,
@@ -756,11 +754,11 @@ def fc_notany(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         mark1 = context.mark(True)
         if rule.pattern(0).match_data(context, context,
@@ -819,11 +817,11 @@ def fc_python_premise(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         mark1 = context.mark(True)
         if rule.pattern(0).match_data(context, context,
@@ -855,11 +853,11 @@ def assertions_0(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         rule.rule_base.num_bc_rule_successes += 1
         yield
@@ -873,11 +871,11 @@ def assertions_n(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         flag_1 = False
         with engine.prove(rule.rule_base.root_name, 'assertion', context,
@@ -917,11 +915,11 @@ def assertion(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         mark1 = context.mark(True)
         if rule.pattern(0).match_data(context, context,
@@ -957,11 +955,11 @@ def python_assertion(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         rule.rule_base.num_bc_rule_successes += 1
         yield
@@ -975,11 +973,11 @@ def bc_rules(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         bc_plan_lines = []
         bc_bc_funs = []
@@ -1046,11 +1044,11 @@ def bc_rule_(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         flag_1 = False
         with engine.prove(rule.rule_base.root_name, 'bc_premises', context,
@@ -1111,11 +1109,11 @@ def bc_premises(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         flag_1 = False
         with engine.prove(rule.rule_base.root_name, 'bc_premises1', context,
@@ -1178,11 +1176,11 @@ def bc_premises1_0(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         rule.rule_base.num_bc_rule_successes += 1
         yield
@@ -1196,11 +1194,11 @@ def bc_premises1_n(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         flag_1 = False
         with engine.prove(rule.rule_base.root_name, 'bc_premise', context,
@@ -1278,11 +1276,11 @@ def bc_premise(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         mark1 = context.mark(True)
         if rule.pattern(0).match_data(context, context,
@@ -1392,11 +1390,11 @@ def bc_first(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         mark1 = context.mark(True)
         if rule.pattern(0).match_data(context, context,
@@ -1468,11 +1466,11 @@ def bc_forall_None(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         flag_1 = False
         with engine.prove(rule.rule_base.root_name, 'bc_premises1', context,
@@ -1515,11 +1513,11 @@ def bc_forall_require(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         mark1 = context.mark(True)
         if rule.pattern(0).match_data(context, context,
@@ -1605,11 +1603,11 @@ def bc_notany(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         mark1 = context.mark(True)
         if rule.pattern(0).match_data(context, context,
@@ -1669,11 +1667,11 @@ def no_plan(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         mark1 = context.mark(True)
         if rule.pattern(0).match_data(context, context,
@@ -1700,11 +1698,11 @@ def as_plan(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         mark1 = context.mark(True)
         if rule.pattern(0).match_data(context, context,
@@ -1742,11 +1740,11 @@ def plan_spec(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         mark1 = context.mark(True)
         if rule.pattern(0).match_data(context, context,
@@ -1784,11 +1782,11 @@ def illegal_plan_spec(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         mark1 = context.mark(True)
         if rule.pattern(0).match_data(context, context,
@@ -1809,11 +1807,11 @@ def plan_bindings(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         mark1 = context.mark(True)
         if rule.pattern(0).match_data(context, context,
@@ -1859,11 +1857,11 @@ def not_required(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         rule.rule_base.num_bc_rule_successes += 1
         yield
@@ -1877,11 +1875,11 @@ def required(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         mark1 = context.mark(True)
         if rule.pattern(0).match_data(context, context,
@@ -1916,11 +1914,11 @@ def bc_python_premise(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         mark1 = context.mark(True)
         if rule.pattern(0).match_data(context, context,
@@ -1952,11 +1950,11 @@ def python_eq(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         mark1 = context.mark(True)
         if rule.pattern(0).match_data(context, context,
@@ -2007,11 +2005,11 @@ def python_in(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         mark1 = context.mark(True)
         if rule.pattern(0).match_data(context, context,
@@ -2071,11 +2069,11 @@ def python_check(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         mark1 = context.mark(True)
         if rule.pattern(0).match_data(context, context,
@@ -2108,11 +2106,11 @@ def python_block(rule, arg_patterns, arg_context):
   if len(arg_patterns) == len(patterns):
     context = contexts.bc_context(rule)
     try:
-      if all(itertools.imap(lambda pat, arg:
-                              pat.match_pattern(context, context,
-                                                arg, arg_context),
-                            patterns,
-                            arg_patterns)):
+      if all(map(lambda pat, arg:
+                   pat.match_pattern(context, context,
+                                     arg, arg_context),
+                 patterns,
+                 arg_patterns)):
         rule.rule_base.num_bc_rules_matched += 1
         rule.rule_base.num_bc_rule_successes += 1
         yield
@@ -3021,169 +3019,170 @@ def populate(engine):
                   (),
                   ())
 
+import itertools
 from pyke.krb_compiler import helpers
 
 Krb_filename = '../compiler.krb'
 Krb_lineno_map = (
-    ((16, 20), (24, 28)),
-    ((24, 24), (30, 30)),
-    ((28, 28), (31, 31)),
-    ((32, 32), (32, 32)),
-    ((35, 43), (33, 33)),
-    ((45, 53), (34, 34)),
-    ((55, 65), (35, 36)),
-    ((68, 80), (37, 49)),
-    ((84, 89), (50, 55)),
-    ((93, 108), (56, 71)),
-    ((140, 144), (74, 74)),
-    ((148, 148), (76, 76)),
-    ((164, 168), (79, 79)),
-    ((172, 174), (81, 83)),
-    ((190, 194), (86, 86)),
-    ((196, 197), (88, 90)),
-    ((200, 200), (92, 92)),
-    ((206, 214), (94, 94)),
-    ((215, 216), (95, 97)),
-    ((229, 229), (98, 98)),
-    ((233, 233), (99, 99)),
-    ((251, 255), (102, 103)),
-    ((258, 276), (105, 107)),
-    ((278, 287), (108, 109)),
-    ((290, 307), (110, 127)),
-    ((311, 318), (128, 135)),
-    ((340, 344), (138, 139)),
-    ((358, 362), (142, 146)),
-    ((365, 383), (148, 152)),
-    ((385, 403), (153, 157)),
-    ((406, 406), (158, 158)),
-    ((426, 430), (161, 167)),
-    ((432, 443), (169, 170)),
-    ((446, 449), (171, 174)),
-    ((453, 453), (175, 175)),
-    ((457, 457), (176, 176)),
-    ((461, 466), (177, 182)),
-    ((488, 492), (185, 186)),
-    ((496, 511), (188, 203)),
-    ((527, 531), (207, 208)),
-    ((535, 545), (210, 220)),
-    ((561, 565), (223, 227)),
-    ((569, 569), (229, 229)),
-    ((572, 590), (230, 234)),
-    ((593, 593), (235, 235)),
-    ((597, 597), (236, 236)),
-    ((619, 623), (239, 242)),
-    ((626, 644), (244, 248)),
-    ((647, 647), (249, 249)),
-    ((665, 669), (252, 256)),
-    ((673, 673), (258, 258)),
-    ((677, 677), (259, 259)),
-    ((680, 698), (260, 264)),
-    ((700, 718), (265, 269)),
-    ((721, 729), (270, 278)),
-    ((733, 733), (279, 279)),
-    ((759, 763), (282, 286)),
-    ((767, 767), (288, 288)),
-    ((771, 771), (289, 289)),
-    ((774, 792), (290, 294)),
-    ((795, 800), (295, 300)),
-    ((822, 826), (303, 306)),
-    ((830, 830), (308, 308)),
-    ((832, 843), (309, 311)),
-    ((858, 862), (314, 314)),
-    ((876, 880), (317, 318)),
-    ((883, 892), (320, 320)),
-    ((894, 903), (321, 321)),
-    ((920, 924), (324, 326)),
-    ((928, 929), (328, 329)),
-    ((933, 942), (330, 339)),
-    ((960, 964), (342, 347)),
-    ((978, 982), (350, 350)),
-    ((984, 986), (352, 355)),
-    ((989, 989), (357, 357)),
-    ((995, 1005), (359, 359)),
-    ((1006, 1008), (360, 363)),
-    ((1021, 1021), (364, 364)),
-    ((1025, 1025), (365, 365)),
-    ((1029, 1029), (366, 366)),
-    ((1049, 1053), (369, 371)),
-    ((1056, 1069), (373, 375)),
-    ((1072, 1074), (376, 378)),
-    ((1078, 1085), (379, 386)),
-    ((1089, 1092), (387, 390)),
-    ((1114, 1118), (393, 395)),
-    ((1121, 1140), (397, 400)),
-    ((1143, 1143), (401, 401)),
-    ((1147, 1150), (402, 405)),
-    ((1154, 1159), (406, 411)),
-    ((1181, 1185), (414, 416)),
-    ((1199, 1203), (419, 423)),
-    ((1206, 1225), (425, 429)),
-    ((1227, 1246), (430, 434)),
-    ((1249, 1249), (435, 435)),
-    ((1253, 1253), (436, 436)),
-    ((1257, 1257), (437, 437)),
-    ((1281, 1285), (440, 446)),
-    ((1289, 1289), (448, 448)),
-    ((1293, 1293), (449, 449)),
-    ((1297, 1298), (450, 451)),
-    ((1302, 1314), (452, 464)),
-    ((1317, 1330), (465, 466)),
-    ((1332, 1348), (467, 470)),
-    ((1351, 1352), (471, 472)),
-    ((1356, 1356), (473, 473)),
-    ((1360, 1363), (474, 477)),
-    ((1395, 1399), (480, 484)),
-    ((1403, 1403), (486, 486)),
-    ((1406, 1425), (487, 491)),
-    ((1427, 1440), (492, 493)),
-    ((1443, 1443), (494, 494)),
-    ((1447, 1447), (495, 495)),
-    ((1471, 1475), (498, 502)),
-    ((1478, 1497), (504, 508)),
-    ((1500, 1500), (509, 509)),
-    ((1518, 1522), (512, 516)),
-    ((1526, 1526), (518, 518)),
-    ((1530, 1530), (519, 519)),
-    ((1533, 1552), (520, 524)),
-    ((1554, 1573), (525, 529)),
-    ((1576, 1584), (530, 538)),
-    ((1608, 1612), (541, 545)),
-    ((1616, 1616), (548, 548)),
-    ((1620, 1620), (549, 549)),
-    ((1623, 1642), (550, 554)),
-    ((1645, 1650), (555, 560)),
-    ((1672, 1676), (563, 565)),
-    ((1680, 1687), (567, 574)),
-    ((1703, 1707), (577, 581)),
-    ((1711, 1713), (583, 585)),
-    ((1716, 1728), (586, 587)),
-    ((1745, 1749), (590, 595)),
-    ((1753, 1755), (597, 599)),
-    ((1758, 1770), (600, 601)),
-    ((1787, 1791), (604, 606)),
-    ((1795, 1796), (608, 609)),
-    ((1812, 1816), (612, 613)),
-    ((1820, 1840), (615, 635)),
-    ((1844, 1844), (636, 636)),
-    ((1862, 1866), (639, 640)),
-    ((1880, 1884), (643, 644)),
-    ((1888, 1891), (646, 649)),
-    ((1895, 1901), (650, 656)),
-    ((1919, 1923), (659, 663)),
-    ((1927, 1927), (665, 665)),
-    ((1929, 1940), (666, 668)),
-    ((1955, 1959), (671, 675)),
-    ((1963, 1964), (677, 678)),
-    ((1968, 1968), (679, 679)),
-    ((1972, 1982), (680, 690)),
-    ((1986, 1988), (691, 693)),
-    ((2010, 2014), (696, 700)),
-    ((2018, 2019), (702, 703)),
-    ((2023, 2023), (704, 704)),
-    ((2027, 2039), (705, 717)),
-    ((2043, 2052), (718, 727)),
-    ((2074, 2078), (730, 735)),
-    ((2082, 2082), (737, 737)),
-    ((2086, 2093), (738, 745)),
-    ((2111, 2115), (748, 756)),
+    ((14, 18), (24, 28)),
+    ((22, 22), (30, 30)),
+    ((26, 26), (31, 31)),
+    ((30, 30), (32, 32)),
+    ((33, 41), (33, 33)),
+    ((43, 51), (34, 34)),
+    ((53, 63), (35, 36)),
+    ((66, 78), (37, 49)),
+    ((82, 87), (50, 55)),
+    ((91, 106), (56, 71)),
+    ((138, 142), (74, 74)),
+    ((146, 146), (76, 76)),
+    ((162, 166), (79, 79)),
+    ((170, 172), (81, 83)),
+    ((188, 192), (86, 86)),
+    ((194, 195), (88, 90)),
+    ((198, 198), (92, 92)),
+    ((204, 212), (94, 94)),
+    ((213, 214), (95, 97)),
+    ((227, 227), (98, 98)),
+    ((231, 231), (99, 99)),
+    ((249, 253), (102, 103)),
+    ((256, 274), (105, 107)),
+    ((276, 285), (108, 109)),
+    ((288, 305), (110, 127)),
+    ((309, 316), (128, 135)),
+    ((338, 342), (138, 139)),
+    ((356, 360), (142, 146)),
+    ((363, 381), (148, 152)),
+    ((383, 401), (153, 157)),
+    ((404, 404), (158, 158)),
+    ((424, 428), (161, 167)),
+    ((430, 441), (169, 170)),
+    ((444, 447), (171, 174)),
+    ((451, 451), (175, 175)),
+    ((455, 455), (176, 176)),
+    ((459, 464), (177, 182)),
+    ((486, 490), (185, 186)),
+    ((494, 509), (188, 203)),
+    ((525, 529), (207, 208)),
+    ((533, 543), (210, 220)),
+    ((559, 563), (223, 227)),
+    ((567, 567), (229, 229)),
+    ((570, 588), (230, 234)),
+    ((591, 591), (235, 235)),
+    ((595, 595), (236, 236)),
+    ((617, 621), (239, 242)),
+    ((624, 642), (244, 248)),
+    ((645, 645), (249, 249)),
+    ((663, 667), (252, 256)),
+    ((671, 671), (258, 258)),
+    ((675, 675), (259, 259)),
+    ((678, 696), (260, 264)),
+    ((698, 716), (265, 269)),
+    ((719, 727), (270, 278)),
+    ((731, 731), (279, 279)),
+    ((757, 761), (282, 286)),
+    ((765, 765), (288, 288)),
+    ((769, 769), (289, 289)),
+    ((772, 790), (290, 294)),
+    ((793, 798), (295, 300)),
+    ((820, 824), (303, 306)),
+    ((828, 828), (308, 308)),
+    ((830, 841), (309, 311)),
+    ((856, 860), (314, 314)),
+    ((874, 878), (317, 318)),
+    ((881, 890), (320, 320)),
+    ((892, 901), (321, 321)),
+    ((918, 922), (324, 326)),
+    ((926, 927), (328, 329)),
+    ((931, 940), (330, 339)),
+    ((958, 962), (342, 347)),
+    ((976, 980), (350, 350)),
+    ((982, 984), (352, 355)),
+    ((987, 987), (357, 357)),
+    ((993, 1003), (359, 359)),
+    ((1004, 1006), (360, 363)),
+    ((1019, 1019), (364, 364)),
+    ((1023, 1023), (365, 365)),
+    ((1027, 1027), (366, 366)),
+    ((1047, 1051), (369, 371)),
+    ((1054, 1067), (373, 375)),
+    ((1070, 1072), (376, 378)),
+    ((1076, 1083), (379, 386)),
+    ((1087, 1090), (387, 390)),
+    ((1112, 1116), (393, 395)),
+    ((1119, 1138), (397, 400)),
+    ((1141, 1141), (401, 401)),
+    ((1145, 1148), (402, 405)),
+    ((1152, 1157), (406, 411)),
+    ((1179, 1183), (414, 416)),
+    ((1197, 1201), (419, 423)),
+    ((1204, 1223), (425, 429)),
+    ((1225, 1244), (430, 434)),
+    ((1247, 1247), (435, 435)),
+    ((1251, 1251), (436, 436)),
+    ((1255, 1255), (437, 437)),
+    ((1279, 1283), (440, 446)),
+    ((1287, 1287), (448, 448)),
+    ((1291, 1291), (449, 449)),
+    ((1295, 1296), (450, 451)),
+    ((1300, 1312), (452, 464)),
+    ((1315, 1328), (465, 466)),
+    ((1330, 1346), (467, 470)),
+    ((1349, 1350), (471, 472)),
+    ((1354, 1354), (473, 473)),
+    ((1358, 1361), (474, 477)),
+    ((1393, 1397), (480, 484)),
+    ((1401, 1401), (486, 486)),
+    ((1404, 1423), (487, 491)),
+    ((1425, 1438), (492, 493)),
+    ((1441, 1441), (494, 494)),
+    ((1445, 1445), (495, 495)),
+    ((1469, 1473), (498, 502)),
+    ((1476, 1495), (504, 508)),
+    ((1498, 1498), (509, 509)),
+    ((1516, 1520), (512, 516)),
+    ((1524, 1524), (518, 518)),
+    ((1528, 1528), (519, 519)),
+    ((1531, 1550), (520, 524)),
+    ((1552, 1571), (525, 529)),
+    ((1574, 1582), (530, 538)),
+    ((1606, 1610), (541, 545)),
+    ((1614, 1614), (548, 548)),
+    ((1618, 1618), (549, 549)),
+    ((1621, 1640), (550, 554)),
+    ((1643, 1648), (555, 560)),
+    ((1670, 1674), (563, 565)),
+    ((1678, 1685), (567, 574)),
+    ((1701, 1705), (577, 581)),
+    ((1709, 1711), (583, 585)),
+    ((1714, 1726), (586, 587)),
+    ((1743, 1747), (590, 595)),
+    ((1751, 1753), (597, 599)),
+    ((1756, 1768), (600, 601)),
+    ((1785, 1789), (604, 606)),
+    ((1793, 1794), (608, 609)),
+    ((1810, 1814), (612, 613)),
+    ((1818, 1838), (615, 635)),
+    ((1842, 1842), (636, 636)),
+    ((1860, 1864), (639, 640)),
+    ((1878, 1882), (643, 644)),
+    ((1886, 1889), (646, 649)),
+    ((1893, 1899), (650, 656)),
+    ((1917, 1921), (659, 663)),
+    ((1925, 1925), (665, 665)),
+    ((1927, 1938), (666, 668)),
+    ((1953, 1957), (671, 675)),
+    ((1961, 1962), (677, 678)),
+    ((1966, 1966), (679, 679)),
+    ((1970, 1980), (680, 690)),
+    ((1984, 1986), (691, 693)),
+    ((2008, 2012), (696, 700)),
+    ((2016, 2017), (702, 703)),
+    ((2021, 2021), (704, 704)),
+    ((2025, 2037), (705, 717)),
+    ((2041, 2050), (718, 727)),
+    ((2072, 2076), (730, 735)),
+    ((2080, 2080), (737, 737)),
+    ((2084, 2091), (738, 745)),
+    ((2109, 2113), (748, 756)),
 )

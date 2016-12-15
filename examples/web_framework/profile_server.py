@@ -1,7 +1,7 @@
 # profile_server.py
 
 import cProfile
-import simple_server
+from . import simple_server
 
 def run(port=8080, logging=False, trace_sql=False, db_engine='sqlite3'):
     cProfile.runctx(

@@ -52,16 +52,16 @@ class bc_rule(fc_rule.rule):
         self.bc_fn = self.surrogate
 
     def surrogate(self, rule, arg_patterns, arg_context):
-        print "%s.%s%s" % (rule.rule_base.root_name, rule.name,
+        print("%s.%s%s" % (rule.rule_base.root_name, rule.name,
                            tuple(arg.as_data(arg_context, True)
-                                 for arg in arg_patterns))
+                                 for arg in arg_patterns)))
         for prototype_plan in self.orig_bc_fn(rule, arg_patterns, arg_context):
-            print "%s.%s succeeded with %s" % \
+            print("%s.%s succeeded with %s" % \
                   (rule.rule_base.root_name, rule.name,
                    tuple(arg.as_data(arg_context, True)
-                         for arg in arg_patterns))
+                         for arg in arg_patterns)))
             yield prototype_plan
-        print "%s.%s failed" % (rule.rule_base.root_name, rule.name)
+        print("%s.%s failed" % (rule.rule_base.root_name, rule.name))
 
     def untrace(self):
         self.bc_fn = self.orig_bc_fn

@@ -26,7 +26,7 @@ import os, os.path
 import signal
 import functools
 import wsgiref.simple_server
-import wsgi_app
+from . import wsgi_app
 
 def kill(pids, signum, frame):
     sys.stderr.write("preforked_server(%d) caught SIGINT\n" % os.getpid())
@@ -68,7 +68,7 @@ class server(wsgiref.simple_server.WSGIServer):
     def server_activate(self):
         wsgiref.simple_server.WSGIServer.server_activate(self)
         pids = []
-        for i in xrange(self.num_processes - 1):
+        for i in range(self.num_processes - 1):
             pid = os.fork()
             if pid == 0:
                 self.init_wsgi()
@@ -88,7 +88,7 @@ def run(num_processes = 2, port = 8080, logging = False, trace_sql = False,
                        else RequestHandlerNoLogging,
                    num_processes, trace_sql, db_engine)
     httpd.set_app(wsgi_app.wsgi_app)
-    print "Server running..."
+    print("Server running...")
     httpd.serve_forever()
 
 if __name__ == "__main__":

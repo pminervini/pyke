@@ -85,7 +85,7 @@ class cache_args(object):
             for args in other_arg_lists:
                 mark = bindings.mark(True)
                 try:
-                    if all(itertools.imap(lambda i, arg:
+                    if all(map(lambda i, arg:
                                             patterns[i].match_data(bindings,
                                                                    pat_context,
                                                                    arg),
@@ -131,7 +131,7 @@ class cache_args(object):
                 fc_rule.new_fact(args, foreach_index)
     def add_args(self, args):
         for (length, indices), (other_indices, arg_map) \
-         in self.hashes.iteritems():
+         in self.hashes.items():
             if length == len(args):
                 selected_args = tuple(arg for i, arg in enumerate(args)
                                           if i in indices)

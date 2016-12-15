@@ -94,7 +94,7 @@ class fc_rule(rule):
             arg_patterns = self.foreach_facts[n][2]
             if len(fact_args) == len(arg_patterns):
                 context = contexts.simple_context()
-                if all(itertools.imap(lambda pat, arg:
+                if all(map(lambda pat, arg:
                                           pat.match_data(context, context, arg),
                                       arg_patterns,
                                       fact_args)):

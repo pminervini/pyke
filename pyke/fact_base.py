@@ -96,11 +96,11 @@ class fact_base(knowledge_base.knowledge_base):
         super(fact_base, self).__init__(engine, name, fact_list, register)
 
     def dump_universal_facts(self):
-        for fl_name in sorted(self.entity_lists.iterkeys()):
+        for fl_name in sorted(self.entity_lists.keys()):
             self.entity_lists[fl_name].dump_universal_facts()
 
     def dump_specific_facts(self):
-        for fl_name in sorted(self.entity_lists.iterkeys()):
+        for fl_name in sorted(self.entity_lists.keys()):
             self.entity_lists[fl_name].dump_specific_facts()
 
     def add_universal_fact(self, fact_name, args):
@@ -114,7 +114,7 @@ class fact_base(knowledge_base.knowledge_base):
 
     def get_stats(self):
         num_fact_lists = num_universal = num_case_specific = 0
-        for fact_list in self.entity_lists.itervalues():
+        for fact_list in self.entity_lists.values():
             universal, case_specific = fact_list.get_stats()
             num_universal += universal
             num_case_specific += case_specific
@@ -143,11 +143,11 @@ class fact_list(knowledge_base.knowledge_entity_list):
 
     def dump_universal_facts(self):
         for args in self.universal_facts:
-            print '%s%s' % (self.name, args)
+            print('%s%s' % (self.name, args))
 
     def dump_specific_facts(self):
         for args in self.case_specific_facts:
-            print '%s%s' % (self.name, args)
+            print('%s%s' % (self.name, args))
 
     def add_fc_rule_ref(self, fc_rule, foreach_index):
         self.fc_rule_refs.append((fc_rule, foreach_index))
@@ -174,7 +174,7 @@ class fact_list(knowledge_base.knowledge_entity_list):
                     mark = bindings.mark(True)
                     end_done = False
                     try:
-                        if all(itertools.imap(
+                        if all(map(
                                    lambda i, arg:
                                        patterns[i].match_data(bindings,
                                                               pat_context,
@@ -227,7 +227,7 @@ class fact_list(knowledge_base.knowledge_entity_list):
 
     def add_args(self, args):
         for (length, indices), (other_indices, arg_map) \
-         in self.hashes.iteritems():
+         in self.hashes.items():
             if length == len(args):
                 selected_args = tuple(arg for i, arg in enumerate(args)
                                           if i in indices)

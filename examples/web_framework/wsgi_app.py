@@ -71,12 +71,12 @@ def gen_plan(environ, starting_tables, template_name):
         value = environ.get(env_var)
         if value is not None and value != '':
             if Debug:
-                print "asserting %s.%s(%s) from %s" % \
-                      (fb_name, fact_name, value, env_var)
+                print("asserting %s.%s(%s) from %s" % \
+                      (fb_name, fact_name, value, env_var))
             Engine.add_case_specific_fact(fb_name, fact_name, (value,))
         elif Debug:
-            print "skipping %s.%s: got %s from %s" % \
-                  (fb_name, fact_name, value, env_var)
+            print("skipping %s.%s: got %s from %s" % \
+                  (fb_name, fact_name, value, env_var))
         return value
     
     def add_http(env_var):
@@ -84,12 +84,12 @@ def gen_plan(environ, starting_tables, template_name):
         value = environ.get(env_var)
         if value is not None and value != '':
             if Debug:
-                print "asserting header.%s(%s) from %s" % \
-                      (fact_name, value, env_var)
+                print("asserting header.%s(%s) from %s" % \
+                      (fact_name, value, env_var))
             Engine.add_case_specific_fact("header", fact_name, (value,))
         elif Debug:
-            print "skipping header.%s: got %s from %s" % \
-                  (fact_name, value, env_var)
+            print("skipping header.%s: got %s from %s" % \
+                  (fact_name, value, env_var))
         return value
 
     add_fact("header", "CONTENT_TYPE")
@@ -102,12 +102,12 @@ def gen_plan(environ, starting_tables, template_name):
     add_fact("wsgi", "wsgi.multithread")
     add_fact("wsgi", "wsgi.run_once")
 
-    for env_var in environ.iterkeys():
+    for env_var in environ.keys():
         if env_var.startswith('HTTP_'): add_http(env_var)
 
     if Debug > 1:
-        for key, value in environ.iteritems():
-            print "environ: %s = %s" % (key, value)
+        for key, value in environ.items():
+            print("environ: %s = %s" % (key, value))
 
     length = int(environ.get("CONTENT_LENGTH") or '0')
     if length:
@@ -148,7 +148,7 @@ def wsgi_app(environ, start_response):
     mtime, plan = Plans_cache.get((starting_tables, template_name),
                                   (None, None))
     if mtime is None or mtime < template_mtime:
-        print "get_plan(..., %s, %s)" % (starting_tables, template_name)
+        print("get_plan(..., %s, %s)" % (starting_tables, template_name))
         plan, traceback = gen_plan(environ, starting_tables, template_name)
         if plan is None:
             Db_connection.rollback()

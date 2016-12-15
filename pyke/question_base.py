@@ -71,8 +71,7 @@ class question(knowledge_base.knowledge_entity_list):
             raise ValueError("question %s: answer parameter, %s, "
                              "not in params list: %s" % (answer_param, params))
         self.input_param_positions = \
-            tuple(filter(lambda i: i != self.answer_param_position,
-                         range(len(self.params))))
+            tuple([i for i in list(range(len(self.params))) if i != self.answer_param_position])
         self.user_question = user_question
         self.cache = {}
 
@@ -87,7 +86,7 @@ class question(knowledge_base.knowledge_entity_list):
 
     def lookup(self, bindings, pat_context, patterns):
         input_params = tuple((self.params[i],
-                                unicode(patterns[i].as_data(pat_context)))
+                                str(patterns[i].as_data(pat_context)))
                              for i in self.input_param_positions)
         format_params = dict(input_params)
         ans = self.cache.get(input_params, self.not_found)

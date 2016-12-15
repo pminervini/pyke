@@ -1,4 +1,4 @@
-# $Id: ask_tty.py 081917d30609 2010-03-05 mtnyogi $
+# $Id: ask_tty.py 4dca5ad0f397 2010-03-10 mtnyogi $
 # coding=utf-8
 # 
 # Copyright © 2008 Bruce Frederiksen
@@ -43,7 +43,7 @@ import sys
 import itertools
 from pyke import qa_helpers
 
-encoding = 'UTF-8'
+encoding = None         # probably not needed with Python3.x...
 
 # The answer has been converted to lowercase before these matches:
 yes_match = ('y', 'yes', 't', 'true')
@@ -51,14 +51,14 @@ no_match = ('n', 'no', 'f', 'false')
 
 def get_answer(question, match_prompt, conv_fn=None, test=None, review=None):
     r'''
-        >>> from StringIO import StringIO
+        >>> from io import StringIO
         >>> sys.stdin = StringIO('4\n')
-        >>> get_answer(u'enter number?', '[0-10]', qa_helpers.to_int,
+        >>> get_answer('enter number?', '[0-10]', qa_helpers.to_int,
         ...            slice(3,5))
         ______________________________________________________________________________
         enter number? [0-10] 4
         >>> sys.stdin = StringIO('2\n4\n')
-        >>> get_answer(u'enter number?', '\n[0-10]', qa_helpers.to_int,
+        >>> get_answer('enter number?', '\n[0-10]', qa_helpers.to_int,
         ...            slice(3,5))
         ______________________________________________________________________________
         enter number?
@@ -69,8 +69,8 @@ def get_answer(question, match_prompt, conv_fn=None, test=None, review=None):
         enter number?
         [0-10] 4
         >>> sys.stdin = StringIO('4\n')
-        >>> get_answer(u'enter number?\n', '[0-10]', qa_helpers.to_int, slice(3,5),
-        ...            ((3, u'not enough'), (4, u'hurray!'), (5, u'too much')))
+        >>> get_answer('enter number?\n', '[0-10]', qa_helpers.to_int, slice(3,5),
+        ...            ((3, 'not enough'), (4, 'hurray!'), (5, 'too much')))
         ______________________________________________________________________________
         enter number?
         [0-10] hurray!
@@ -83,17 +83,17 @@ def get_answer(question, match_prompt, conv_fn=None, test=None, review=None):
     if match_prompt and not match_prompt[-1].isspace(): question += ' '
     if encoding: question = question.encode(encoding)
     while True:
-        print "_" * 78
-        ans = raw_input(question)
+        print("_" * 78)
+        ans = input(question)
         try:
             if encoding and sys.version_info[0] < 3: ans = ans.decode(encoding)
             if conv_fn: ans = conv_fn(ans)
             if test: ans = qa_helpers.match(ans, test)
             break
-        except ValueError, e:
-            print "answer should be %s, got %s" % (str(e), repr(ans))
-            print
-            print "Try Again:"
+        except ValueError as e:
+            print("answer should be %s, got %s" % (str(e), repr(ans)))
+            print()
+            print("Try Again:")
     if review:
         def matches2(ans, test):
             try:
@@ -104,94 +104,94 @@ def get_answer(question, match_prompt, conv_fn=None, test=None, review=None):
 
         def matches(ans, test):
             if isinstance(ans, (tuple, list)):
-                return any(itertools.imap(lambda elem: matches2(elem, test),
+                return any(map(lambda elem: matches2(elem, test),
                                           ans))
             return matches2(ans, test)
 
         for review_test, review_str in review:
             if matches(ans, review_test):
-                print review_str
+                print(review_str)
     return ans
 
 def ask_yn(question, review=None):
     r'''
-        >>> from StringIO import StringIO
+        >>> from io import StringIO
         >>> sys.stdin = StringIO('yes\n')
-        >>> ask_yn(u'got it?')
+        >>> ask_yn('got it?')
         ______________________________________________________________________________
         got it? (y/n) True
         >>> sys.stdin = StringIO('N\n')
-        >>> ask_yn(u'got it?')
+        >>> ask_yn('got it?')
         ______________________________________________________________________________
         got it? (y/n) False
     '''
-    return get_answer(question, u"(y/n)", conv_fn=lambda str: str.lower(),
+    return get_answer(question, "(y/n)", conv_fn=lambda str: str.lower(),
                       test=(qa_helpers.qmap(yes_match, True),
                             qa_helpers.qmap(no_match, False)),
                       review=review)
 
 def ask_integer(question, match=None, review=None):
     r'''
-        >>> from StringIO import StringIO
+        >>> from io import StringIO
         >>> sys.stdin = StringIO('4\n')
-        >>> ask_integer(u'enter number?')
+        >>> ask_integer('enter number?')
         ______________________________________________________________________________
         enter number? (int) 4
     '''
-    return get_answer(question, qa_helpers.match_prompt(match, int, u"[%s]",
-                                                        u'(int)'),
+    return get_answer(question, qa_helpers.match_prompt(match, int, "[%s]",
+                                                        '(int)'),
                       conv_fn=qa_helpers.to_int,
                       test=match,
                       review=review)
 
 def ask_float(question, match=None, review=None):
     r'''
-        >>> from StringIO import StringIO
+        >>> from io import StringIO
         >>> sys.stdin = StringIO('4\n')
-        >>> ask_float(u'enter number?')
+        >>> ask_float('enter number?')
         ______________________________________________________________________________
         enter number? (float) 4.0
     '''
-    return get_answer(question, qa_helpers.match_prompt(match, float, u"[%s]",
-                                                        u'(float)'),
+    return get_answer(question, qa_helpers.match_prompt(match, float, "[%s]",
+                                                        '(float)'),
                       conv_fn=qa_helpers.to_float,
                       test=match,
                       review=review)
 
 def ask_number(question, match=None, review=None):
     r'''
-        >>> from StringIO import StringIO
+        >>> from io import StringIO
         >>> sys.stdin = StringIO('4\n')
-        >>> ask_number(u'enter number?')
+        >>> ask_number('enter number?')
         ______________________________________________________________________________
         enter number? (number) 4
     '''
-    return get_answer(question, qa_helpers.match_prompt(match, int, u"[%s]",
-                                                        u'(number)'),
+    return get_answer(question, qa_helpers.match_prompt(match, int, "[%s]",
+                                                        '(number)'),
                       conv_fn=qa_helpers.to_number,
                       test=match,
                       review=review)
 
 def ask_string(question, match=None, review=None):
     r'''
-        >>> from StringIO import StringIO
+        >>> from io import StringIO
         >>> sys.stdin = StringIO('yes\n')
-        >>> ask_string(u'enter string?')
+        >>> ask_string('enter string?')
         ______________________________________________________________________________
-        enter string? u'yes'
+        enter string? 'yes'
     '''
-    return get_answer(question, qa_helpers.match_prompt(match, str, u"[%s]",
-                                                        u''),
+    return get_answer(question, qa_helpers.match_prompt(match, str, "[%s]",
+                                                        ''),
                       test=match,
                       review=review)
 
 def ask_select_1(question, alternatives, review=None):
     r'''
-        >>> from StringIO import StringIO
+        >>> from io import StringIO
         >>> sys.stdin = StringIO('2\n')
-        >>> ask_select_1(u'which one?',
-        ...              (('a', u'first one'), ('b', u'second one'),
-        ...               ('c', u'third one')))
+        >>> ask_select_1('which one?',
+        ...              (('a', 'first one'), ('b', 'second one'),
+        ...               ('c', 'third one')))
         ______________________________________________________________________________
         which one?
           1. first one
@@ -200,10 +200,10 @@ def ask_select_1(question, alternatives, review=None):
         ? [1-3] 'b'
     '''
     match = slice(1, len(alternatives))
-    question += u''.join(u'\n%3d. %s' %
-                             (i + 1, u'\n     '.join(text.split(u'\n')))
+    question += ''.join('\n%3d. %s' %
+                             (i + 1, '\n     '.join(text.split('\n')))
                         for i, (tag, text) in enumerate(alternatives))
-    i = get_answer(question, qa_helpers.match_prompt(match, int, u"\n? [%s]"),
+    i = get_answer(question, qa_helpers.match_prompt(match, int, "\n? [%s]"),
                    conv_fn=qa_helpers.to_int,
                    test=match,
                    review=review)
@@ -211,11 +211,11 @@ def ask_select_1(question, alternatives, review=None):
 
 def ask_select_n(question, alternatives, review=None):
     r'''
-        >>> from StringIO import StringIO
+        >>> from io import StringIO
         >>> sys.stdin = StringIO('1,3\n')
-        >>> ask_select_n(u'which one?',
-        ...              (('a', u'first one'), ('b', u'second one'),
-        ...               ('c', u'third one')))
+        >>> ask_select_n('which one?',
+        ...              (('a', 'first one'), ('b', 'second one'),
+        ...               ('c', 'third one')))
         ______________________________________________________________________________
         which one?
           1. first one
@@ -224,15 +224,16 @@ def ask_select_n(question, alternatives, review=None):
         ? [1-3, ...] ('a', 'c')
     '''
     match = slice(1, len(alternatives))
-    question += u''.join(u'\n%3d. %s' %
-                             (i + 1, u'\n     '.join(text.split('\n')))
+    question += ''.join('\n%3d. %s' %
+                             (i + 1, '\n     '.join(text.split('\n')))
                         for i, (tag, text) in enumerate(alternatives))
     i_tuple = get_answer(question, qa_helpers.match_prompt(match, int,
-                                                           u"\n? [%s, ...]"),
+                                                           "\n? [%s, ...]"),
                          conv_fn=lambda str:
                                      qa_helpers.to_tuple(str,
                                          conv_fn=qa_helpers.to_int,
                                          test=match),
                          review=review)
     return tuple(alternatives[i-1][0] for i in i_tuple)
+
 

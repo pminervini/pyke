@@ -1,6 +1,6 @@
 # driver.py
 
-from __future__ import with_statement
+
 import sys
 from pyke import knowledge_engine
 from pyke import krb_traceback
@@ -28,11 +28,11 @@ def bc_test():
   
         with engine.prove_goal('bc_notany.child_with_no_aunt($child)') as gen2:
             for vars, plan in gen2:
-                print vars['child'], "has no aunt"
+                print(vars['child'], "has no aunt")
 
         with engine.prove_goal('bc_notany.child_with_no_uncle($child)') as gen3:
             for vars, plan in gen3:
-                print vars['child'], "has no uncle"
+                print(vars['child'], "has no uncle")
     except:
         krb_traceback.print_exc()
         sys.exit(1)

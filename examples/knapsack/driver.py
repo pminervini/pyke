@@ -2,7 +2,7 @@
 
 # driver.py
 
-from __future__ import with_statement
+
 from pyke import knowledge_engine
 from pyke import krb_traceback 
 
@@ -18,7 +18,7 @@ def run(pantry, capacity):
       as gen:
         for vars, no_plan in gen:
             knapsack = vars['knapsack']
-            calories = sum(map(lambda x: x[2], knapsack))
+            calories = sum([x[2] for x in knapsack])
             if calories > max:
                 max = calories
                 ans = knapsack
@@ -26,4 +26,4 @@ def run(pantry, capacity):
 
 if __name__ == "__main__":
     import sys
-    print run(eval(sys.argv[1]), int(sys.argv[2]))
+    print(run(eval(sys.argv[1]), int(sys.argv[2])))

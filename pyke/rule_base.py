@@ -44,10 +44,10 @@ class stopIterator(object):
 
     def __iter__(self): return self
 
-    def next(self):
+    def __next__(self):
         if self.iterator:
             try:
-                return self.iterator.next()
+                return next(self.iterator)
             except StopProof:
                 self.iterator = None
                 self.rule_base.num_bc_rule_failures += 1
@@ -75,8 +75,8 @@ class outer_iterable(object):
         elif hasattr(self.inner_it, 'close'): self.inner_it.close()
         if hasattr(self.outer_it, 'close'): self.outer_it.close()
 
-    def next(self):
-        ans = self.outer_it.next()
+    def __next__(self):
+        ans = next(self.outer_it)
         if hasattr(ans, '__enter__'):
             self.inner_it = ans
             return ans.__enter__()
@@ -191,7 +191,7 @@ class rule_base(knowledge_base.knowledge_base):
                 (self.name, len(self.fc_rules), self.num_fc_rules_triggered,
                  self.num_fc_rules_rerun))
         num_bc_rules = sum(rule_list.num_bc_rules()
-                             for rule_list in self.entity_lists.itervalues())
+                             for rule_list in self.entity_lists.values())
         f.write("%s: %d bc_rules, %d goals, %d rules matched\n" %
                 (self.name, num_bc_rules, self.num_prove_calls,
                  self.num_bc_rules_matched))
@@ -201,12 +201,12 @@ class rule_base(knowledge_base.knowledge_base):
         if self.parent: self.parent.print_stats(f)
 
     def trace(self, rule_name):
-        for rule_list in self.entity_lists.itervalues():
+        for rule_list in self.entity_lists.values():
             if rule_list.trace(rule_name): return
         raise KeyError("trace: rule %s not found" % rule_name)
 
     def untrace(self, rule_name):
-        for rule_list in self.entity_lists.itervalues():
+        for rule_list in self.entity_lists.values():
             if rule_list.untrace(rule_name): return
         raise KeyError("untrace: rule %s not found" % rule_name)
 

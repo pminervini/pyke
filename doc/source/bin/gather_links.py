@@ -1,6 +1,6 @@
 # gather_links.py
 
-from __future__ import with_statement
+
 import re
 import os.path
 
@@ -15,7 +15,7 @@ def run_command(args):
         dir, base = os.path.split(filename)
         if dir.startswith('./'): dir = dir[2:]
         if dir == '.': dir = ''
-        print "dir:", dir, "base:", base
+        print("dir:", dir, "base:", base)
         ans = []
         gathering = False
         need_continuation = False
@@ -48,13 +48,13 @@ def run_command(args):
         for line in ans:
             match = split_ref.match(line)
             if not match:
-                print "split_ref failed on:", line
+                print("split_ref failed on:", line)
             else:
                 ref, link = match.groups()
-                if link[-1] == '_': print line
-                elif link.startswith('http://'): print line
+                if link[-1] == '_': print(line)
+                elif link.startswith('http://'): print(line)
                 else:
-                    print ref.rstrip(), os.path.normpath(os.path.join(dir, link))
+                    print(ref.rstrip(), os.path.normpath(os.path.join(dir, link)))
 
 if __name__ == "__main__":
     import sys

@@ -70,7 +70,7 @@ class pattern_tuple(pattern):
                self.elements == b.elements and self.rest_var == b.rest_var
 
     def match_data(self, bindings, my_context, data):
-        if isinstance(data, types.StringTypes): return False
+        if isinstance(data, str): return False
         try:
             data = tuple(data)
         except TypeError:
@@ -78,7 +78,7 @@ class pattern_tuple(pattern):
         if len(self.elements) > len(data) or \
            self.rest_var is None and len(self.elements) < len(data):
             return False
-        for x, y in itertools.izip(self.elements, data):
+        for x, y in zip(self.elements, data):
             if not x.match_data(bindings, my_context, y): return False
         if self.rest_var is not None:
             return self.rest_var.match_data(bindings, my_context,
@@ -102,7 +102,7 @@ class pattern_tuple(pattern):
         if pattern_b.rest_var is None and my_len > b_len or \
            self.rest_var is None and my_len < b_len:
             return False
-        for x, y in itertools.izip(self.elements, pattern_b.elements):
+        for x, y in zip(self.elements, pattern_b.elements):
             if not x.match_pattern(bindings, my_context, y, b_context):
                 return False
         if my_len <= b_len and self.rest_var is not None:

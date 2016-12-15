@@ -42,7 +42,7 @@
     at startup after you've created your pyke engine.
 '''
 
-from __future__ import with_statement
+
 import contextlib
 
 from pyke import goal
@@ -124,5 +124,5 @@ def _links_to(engine, depth):
     return ans
 
 def _add_fact(engine, fact, args):
-    if debug: print "schema", fact, args
+    if debug: print("schema", fact, args)
     engine.add_universal_fact("schema", fact, args)

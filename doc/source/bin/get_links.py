@@ -2,7 +2,7 @@
 
 # get_links.py
 
-from __future__ import with_statement
+
 import os
 import os.path
 
@@ -61,7 +61,7 @@ def run_command(start_dir, outfilename):
 if __name__ == "__main__":
     import sys
     if len(sys.argv) != 3:
-        print >> sys.stderr, "usage: get_links.py dir outfile"
+        print("usage: get_links.py dir outfile", file=sys.stderr)
         sys.exit(2)
     run_command(sys.argv[1], sys.argv[2])
 
