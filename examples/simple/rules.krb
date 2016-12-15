@@ -1,0 +1,6 @@
+rule_1
+	foreach
+		facts.p($x, $y)
+		facts.p($y, $z)
+	assert
+		facts.q($x, $z)
